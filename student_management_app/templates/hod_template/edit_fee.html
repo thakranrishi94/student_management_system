@@ -1,0 +1,81 @@
+{% extends 'hod_template/base_template.html' %}
+
+{% block page_title %}
+    Edit Fee
+{% endblock page_title %}
+
+{% block main_content %}
+{% load static %}
+
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card card-primary">
+                    <div class="card-header">
+                        <h3 class="card-title">Edit Fee</h3>
+                    </div>
+                    <form role="form" method="POST" action="{% url 'edit_fee_save' %}">
+                        {% csrf_token %}
+                        
+                        {% if messages %}
+                        <div class="form-group">
+                            <div class="col-12">
+                                {% for message in messages %}
+                                {% if message.tags == "error" %}
+                                    <div class="alert alert-danger alert-dismissible fade show" role="alert" style="margin-top: 10px;">
+                                    {{ message }}
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                    </div>
+                                {% elif message.tags == "success" %}
+                                    <div class="alert alert-success alert-dismissible fade show" role="alert" style="margin-top: 10px;">
+                                    {{ message }}
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                    </div>
+                                {% endif %}
+                                {% endfor %}
+                            </div>
+                        </div>
+                        {% endif %}
+
+                        <div class="card-body">
+                            <div class="form-group">
+                                <label>Student</label>
+                                <input type="text" class="form-control" value="{{ fee.student.admin.first_name }} {{ fee.student.admin.last_name }}" disabled>
+                            </div>
+
+                            {% for field in form %}
+                            <div class="form-group">
+                                {{ field.errors }}
+                                {{ field.label_tag }}
+                                {{ field }}
+                            </div>
+                            {% endfor %}
+
+                            <div class="form-group">
+                                <label>Status</label>
+                                <select class="form-control" name="status" required>
+                                    <option value="PAID" {% if fee.status == 'PAID' %}selected{% endif %}>Paid</option>
+                                    <option value="PENDING" {% if fee.status == 'PENDING' %}selected{% endif %}>Pending</option>
+                                    <option value="FAILED" {% if fee.status == 'FAILED' %}selected{% endif %}>Failed</option>
+                                </select>
+                            </div>
+
+                            <input type="hidden" name="fee_id" value="{{ fee.id }}">
+                        </div>
+
+                        <div class="card-footer">
+                            <button type="submit" class="btn btn-primary">Update Fee</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock main_content %} 

@@ -1,0 +1,47 @@
+{% extends 'student_template/base_template.html' %}
+{% block page_title %}
+Notifications
+{% endblock page_title %}
+{% block main_content %}
+    <!-- Main content -->
+    <section class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">Your Notifications</h3>
+                        </div>
+                        <div class="card-body">
+                            {% if notifications %}
+                                <div class="table-responsive">
+                                    <table class="table table-bordered table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th>Date</th>
+                                                <th>Message</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for notification in notifications %}
+                                            <tr>
+                                                <td>{{ notification.created_at|date:"d M Y, h:i A" }}</td>
+                                                <td>{{ notification.message }}</td>
+                                            </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            {% else %}
+                                <div class="alert alert-info">
+                                    No notifications found.
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- /.content -->
+{% endblock main_content %} 
